@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 const server = http.createServer(app);
 const io = new SocketIoServer(server, {
   cors: {
-    origin: ['https://sapthapadhi.vercel.app','https://sapthapadhi-67il.vercel.app', 'http://localhost:3000','http://localhost:3001'],
+    origin: ['https://sapthapadhi.vercel.app','https://sapthapadhi-67il.vercel.app', 'http://localhost:3000','http://localhost:3001','https://admin.sapthapadhimatrimony.in','https://sapthapadhimatrimony.in'],
     methods: ['GET', 'POST','DELETE','PUT','PATCH'],
     allowedHeaders: ['my-custom-header'],
     credentials: true,
