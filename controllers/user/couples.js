@@ -6,7 +6,7 @@ import {
   ChatMessage,
   UserDetails,
 } from '../../model/index.js';
-import { Op } from 'sequelize';
+import { Op, where } from 'sequelize';
 
 export const addCouples = async (req, res, next) => {
   validationErrorHandler(req, next);
@@ -37,6 +37,59 @@ export const addCouples = async (req, res, next) => {
     next(error);
   }
 };
+
+
+export const deleteCouple = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const couple = await Couples.findByPk(id);
+    if (!couple) {
+      const error = new Error('couple not found');
+      error.statusCode = 404;
+      return next(error);
+    }
+     await couple.destroy();
+    return res.status(200).json({ message: 'couple deleted successfully' });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    return next(error);
+  }
+};
+
+export const updatCouple=async (req,res,next)=>{
+  const {id}=req.params;
+  const { aboutUs, groomName, brideName } = req.body;
+ 
+  try {
+      let couple=await Couples.findByPk(id);
+      if(!couple){
+        res.status(404).json({message:"Couple not found"})
+      }
+      let image="";
+      if(req.file || req.files.image){
+        image=req.files.image;
+      }else{
+        image=couple.image;
+      }
+      
+      await Couples.update({
+        groomName,
+        brideName,
+        aboutUs,
+        image: image,
+      },{where:{id:req.params.id}})
+
+      res.status(200).json({ message: 'plan Updated!' });
+
+  } catch (error) {
+    if(!error.statusCode){
+      error.statusCode=500;
+    }
+    next(error);
+  }
+}
 
 export const getCouplesList = async (req, res, next) => {
   try {

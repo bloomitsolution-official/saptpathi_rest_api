@@ -5,7 +5,7 @@ import {
   updatePlan,
 } from '../controllers/admin/plans.js';
 import { updateSubscriptions } from '../controllers/admin/memberPlans.js';
-import { listAllEnquiries } from '../controllers/user/users.js';
+import { deleteInquary, listAllEnquiries } from '../controllers/user/users.js';
 
 import {
   CreateBanners,
@@ -13,7 +13,7 @@ import {
   getAllBanners,
 } from '../controllers/admin/banner.js';
 
-import { addCouples, getCouplesList } from '../controllers/user/couples.js';
+import { addCouples, deleteCouple, getCouplesList, updatCouple } from '../controllers/user/couples.js';
 import { getUserDetails } from '../controllers/admin/users.js';
 import {
   addGallery,
@@ -23,17 +23,25 @@ import {
 import { isAdmin } from '../middleware/is-admin.js';
 import { listReviews } from '../controllers/user/review.js';
 import { deleteUser } from '../controllers/auth/users.js';
+import { allUserSubscription } from '../controllers/admin/suscriptions.js';
 const router = express.Router();
 
 router.post('/createplan', isAdmin, createPlan);
 router.patch('/updateSubscriptions/:id', isAdmin, updateSubscriptions);
 router.delete('/deleteplan/:id', isAdmin, deletePlan);
 
+//suscriptions.....
+router.get('/user-suscription', isAdmin, allUserSubscription);
+
+
 //update plan
 router.patch('/updatePlan/:id', isAdmin, updatePlan);
+router.patch('/updateCouple/:id', isAdmin, updatCouple);
+router.delete('/deleteCouple/:id', isAdmin, deleteCouple);
 
 //Enquire
 router.get('/list-enquiry', isAdmin, listAllEnquiries);
+router.delete('/deleteInquary/:id', isAdmin, deleteInquary);
 //delete-user
 router.delete('/deleteUser/:userId', isAdmin, deleteUser);
 //list-users
@@ -45,11 +53,11 @@ router.get('/getGallery', getGallery);
 router.delete('/deleteGallery/:id', deleteGallery);
 //add couples data
 router.post('/addCouplesData', isAdmin, addCouples);
-router.get('/couples', isAdmin, getCouplesList);
+router.get('/couples', getCouplesList);
 //
 router.post('/create-banner', CreateBanners);
 router.get('/listBanner', getAllBanners);
 router.delete('/delete-banner/:id', deleteBanner);
 
-router.get('/list-reviews', isAdmin, listReviews);
+router.get('/list-reviews', listReviews);
 export default router;

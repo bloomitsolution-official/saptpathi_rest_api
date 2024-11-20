@@ -80,6 +80,34 @@ export const updatePlan = async (req, res, next) => {
     return next(err);
   }
 };
+export const updateCouple = async (req, res, next) => {
+  validationErrorHandler(req, next);
+  const { name, amount, planValidity, features } = req.body;
+
+  try {
+    const plans = await Plan.findByPk(req.params.id);
+    if (!plans) {
+      res.status(404).json({ message: 'Plan not found' });
+    }
+    await Plan.update(
+      {
+        name,
+        amount,
+        planValidity,
+        features,
+      },
+      { where: { id: req.params.id } },
+    );
+    res.status(200).json({ message: 'plan Updated!' });
+  } catch (err) {
+    console.log(err);
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    return next(err);
+  }
+};
+
 
 // DELETE endpoint
 export const deletePlan = async (req, res, next) => {

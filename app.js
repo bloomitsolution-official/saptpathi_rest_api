@@ -10,7 +10,7 @@ import appRoutes from './routes/appRoutes.js';
 import cluster from 'cluster';
 import helmet from 'helmet';
 import multer from 'multer';
-import compression from 'compression';
+import compression from 'compression'
 import { Server as SocketIoServer } from 'socket.io';
 import http from 'http';
 import { centralError } from './middleware/error-handlers/central-error.js';
@@ -30,8 +30,8 @@ app.get('/', (req, res) => {
 const server = http.createServer(app);
 const io = new SocketIoServer(server, {
   cors: {
-    origin: ['https://sapthapadhi.vercel.app','https://sapthapadhi-67il.vercel.app', 'http://localhost:3000'],
-    methods: ['GET', 'POST'],
+    origin: ['https://sapthapadhi.vercel.app','https://sapthapadhi-67il.vercel.app', 'http://localhost:3000','http://localhost:3001'],
+    methods: ['GET', 'POST','DELETE','PUT','PATCH'],
     allowedHeaders: ['my-custom-header'],
     credentials: true,
   },

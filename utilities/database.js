@@ -2,6 +2,7 @@ import fs from "fs";
 import Sequelize from "sequelize";
 import { username, password, host, port, database, path } from "./constants.js";
 let sequelizeOptions;
+console.log("Process.env.Node=",process.env.NODE_ENV)
 if (process.env.NODE_ENV !== "DEV") {
 
   const ca = fs.readFileSync(path)?.toString();

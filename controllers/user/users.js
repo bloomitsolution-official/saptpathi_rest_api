@@ -152,6 +152,27 @@ export const listAllEnquiries = async (req, res, next) => {
   }
 };
 
+export const deleteInquary = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const inquiry = await Enquire.findByPk(id);
+    if (!inquiry) {
+      const error = new Error('Inquiry not found.');
+      error.statusCode = 404;
+      throw error;
+    }
+    await inquiry.destroy();
+    return res.status(200).json({
+      message: 'Inquiry deleted successfully.',
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500; 
+    }
+    return next(error); 
+  }
+};
+
 export const preference = async (req, res, next) => {
   validationErrorHandler(req, next);
   const {
@@ -294,6 +315,7 @@ export const getMatchingProfiles = async (req, res, next) => {
     const userDetails = await UserDetails.findOne({
       where: { userId: req.userId },
     });
+   
 
     if (!userDetails) {
       return res.status(404).json({ error: 'User details not found' });
@@ -302,7 +324,7 @@ export const getMatchingProfiles = async (req, res, next) => {
     const preferences = await Preferences.findOne({
       where: { userId: req.userId },
     });
-
+      console.log("Preferences",preferences.minAge);
     if (!preferences) {
       return res.status(404).json({ error: 'User preferences not found' });
     }
@@ -337,13 +359,13 @@ export const getMatchingProfiles = async (req, res, next) => {
     if (preferences.smokingHabits) {
       whereClause.smokingHabits = preferences.smokingHabits;
     }
-    if (preferences.religion && preferences.religion !== 'Any') {
+    if (preferences.religion && preferences.religion != 'Any') {
       whereClause.religion = preferences.religion;
     }
-    if (preferences.caste && preferences.caste !== 'Any Caste') {
+    if (preferences.caste && preferences.caste != 'Any Caste') {
       whereClause.caste = preferences.caste;
     }
-    if (preferences.subcaste && preferences.subcaste !== 'Any Subcaste') {
+    if (preferences.subcaste && preferences.subcaste != 'Any Subcaste') {
       whereClause.subcaste = preferences.subcaste;
     }
     // if (preferences.haveDosh !== null) {
@@ -365,8 +387,10 @@ export const getMatchingProfiles = async (req, res, next) => {
     const matchingProfiles = await UserDetails.findAll({
       where: whereClause,
     });
-  
+     
+    console.log("UserDetails",matchingProfiles);
     return res.status(200).json(matchingProfiles);
+
   } catch (error) {
     if (!error.statusCode) {
       error.statusCode = 500;
