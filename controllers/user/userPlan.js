@@ -7,13 +7,9 @@ export const userSubscription = async (req, res, next) => {
   try {
     const userId = req.userId;
 
-    const user = await Subscription.findAll({
+    const user = await Subscription.findOne({
       where: { userId },
       include: [
-        {
-          model: User,
-          attributes: ['name', 'phone', 'email'],
-        },
         {
           model: Plan,
           attributes: ['name', 'amount'],

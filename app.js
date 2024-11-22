@@ -167,10 +167,11 @@ if (cluster.isMaster) {
     });
   
     socket.on('fetchMessages', async toUser => {
+        console.log("Fethc Messag eis teint")
       const transaction = await sequelize.transaction();
       try {
         const messages = await ChatMessage.findAll({
-          where: { toUser, delivered: false },
+          where: { toUser },
           order: [['timestamp', 'ASC']],
           transaction
         });
@@ -207,7 +208,7 @@ if (cluster.isMaster) {
     .sync()
     .then(() => {
       server.listen(port, () => {
-        console.log(`Server is running on http://localhost:${port}`);
+        console.log(`Server is running on http://localhost:${port} version 1`);
       });
     })
     .catch(err => {
