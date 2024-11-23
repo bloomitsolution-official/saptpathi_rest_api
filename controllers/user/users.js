@@ -398,6 +398,33 @@ export const getMatchingProfiles = async (req, res, next) => {
     return next(error);
   }
 };
+export const getAllUserProfile = async (req, res, next) => {
+  validationErrorHandler(req, next);
+
+  // Get the ID from the query parameter (e.g., ?id=123)
+  let id = req?.query?.id;
+  console.log('id', id); // Log the ID for debugging
+
+  try {
+    // Initialize an empty whereClause to allow fetching all profiles by default
+    let whereClause = {};
+
+    // If the ID is provided in the query, add the condition to the whereClause
+    if (id) {
+      whereClause = {
+        userId: { [Op.ne]: id }, // Exclude the profile with the provided id
+      };
+    }
+    const matchingProfiles = await UserDetails.findAll({ where: whereClause });
+
+    return res.status(200).json(matchingProfiles); 
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    return next(error); 
+  }
+};
 
 // export const getRecommendedProfiles = async (req, res, next) => {
 //   validationErrorHandler(req, next);

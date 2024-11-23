@@ -27,6 +27,7 @@ import {
   viewProfile,
   viewUserProfile,
   getPreferences,
+  getAllUserProfile,
 } from '../controllers/user/users.js';
 
 import { fetchMessages, sendMessage } from '../controllers/user/chat.js';
@@ -48,6 +49,7 @@ router.get('/userPlan', isUser, userSubscription);
 //profile matching
 router.post('/profileMatching', isUser, profileMatching);
 router.post('/getFilteredUsers', isUser, getFilteredUsers);
+
 //edit profile
 router.put('/edit-profile', isUser, editUser);
 //chat
@@ -58,6 +60,7 @@ router.post('/addEnquiry', isUser, addEnquiry);
 router.post('/add-preference', isUser, preference);
 router.get('/get-preferences', isUser, getPreferences);
 router.get('/matches', isUser, getMatchingProfiles);
+router.get("/getAllUserProfile",getAllUserProfile)
 //recommendation
 router.get('/recommendedProfiles', isUser, getRecommendedProfiles);
 //edit profile
