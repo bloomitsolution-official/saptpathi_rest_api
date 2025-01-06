@@ -24,6 +24,7 @@ import { isAdmin } from '../middleware/is-admin.js';
 import { listReviews } from '../controllers/user/review.js';
 import { deleteUser } from '../controllers/auth/users.js';
 import { allUserSubscription } from '../controllers/admin/suscriptions.js';
+import { CreateTeam, deleteTeamMember, getAllTeamMember } from '../controllers/admin/Team.js';
 const router = express.Router();
 
 router.post('/createplan', isAdmin, createPlan);
@@ -55,6 +56,15 @@ router.delete('/deleteGallery/:id', deleteGallery);
 router.post('/addCouplesData', isAdmin, addCouples);
 router.get('/couples', getCouplesList);
 //
+
+//Team Member
+
+router.post('/createTeamMember',CreateTeam)
+router.get('/getAllTeamMembers',getAllTeamMember)
+router.delete('/deleteTeamMember/:id',deleteTeamMember)
+
+
+//create banner
 router.post('/create-banner', CreateBanners);
 router.get('/listBanner', getAllBanners);
 router.delete('/delete-banner/:id', deleteBanner);

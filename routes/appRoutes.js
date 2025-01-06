@@ -31,6 +31,7 @@ import {
 } from '../controllers/user/users.js';
 
 import { fetchMessages, sendMessage } from '../controllers/user/chat.js';
+import { CreateGalloticBanners, deleteGalloticBanner, getGalloticBanner } from '../controllers/user/GalloticBanner.js';
 const router = express.Router();
 // request
 router.get('/listBanners', getAllBanners);
@@ -74,6 +75,10 @@ router.delete('/deleteimage/:index', isUser, deleteImage);
 router.post('/CreateOrder', isUser, CreateOrder);
 //add reviews
 router.post('/addReview', isUser, addReview);
+
+router.post('/addGalloticBanner',CreateGalloticBanners)
+router.get('/getGalloticBanner',getGalloticBanner)
+router.delete('/deleteGalloticBanner/:id',deleteGalloticBanner)
 
 // chat
 router.get('/fetchMessages/:toUser', isUser, fetchMessages);
