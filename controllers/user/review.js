@@ -78,7 +78,22 @@ export const addReview = async (req, res, next) => {
 
 export const listReviews = async (req, res, next) => {
   try {
-    const reviews = await Review.findAll();
+    const reviews = await Review.findAll({
+      include: [
+        {
+          model: User, 
+          attributes: ['id', 'firstName', 'lastName'],
+          include: [
+            {
+              model: UserDetails,
+              as: 'details',
+              attributes: ['profilePhoto'],
+            },
+          ]
+        },
+      ],
+});
+
     return res.status(200).json({
       reviews: reviews,
       message: 'Reviews fetched successfully 😊',
